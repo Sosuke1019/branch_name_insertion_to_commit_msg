@@ -10,9 +10,6 @@ case "${COMMIT_SOURCE}" in
     *)
     branchName=$(git rev-parse --abbrev-ref HEAD) # 現在のブランチ名を取得
     ticketBango=$(echo $branchName | perl -nle '/\/(\d+)_/ && print $1') # チケット番号を取得
-    perl -p -i.bak -e "s/^/#${ticketBango} /g" $COMMIT_MSG_FILE # 「#チケット番号」をコミットメッセージのprefixとして挿入
+    perl -p -i.bak -e 'if ($. == 1) { s/^/#${ticketBango} / }' $COMMIT_MSG_FILE # 「#チケット番号」をコミットメッセージのprefixとして挿入
     ;;
 esac
-
-全部の先頭にチケット番号入っている
-,#はコメントになるのか確認する
